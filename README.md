@@ -19,5 +19,5 @@ unsigned char buf[] =
 
 注意：
 1. 确保环境变量中有`go`否则无法编译
-2. 如果报错请先执行`go mod download`命令下载依赖
-3. 如果下载依赖过慢可以配置阿里云镜像`go env -w GOPROXY=https://mirrors.aliyun.com/goproxy`
+2. 如果报错请先执行`go env -w GO111MODULE=on`然后`go mod download`命令下载依赖
+3. 如果下载依赖过慢配置镜像`go env -w GOPROXY=https://mirrors.aliyun.com/goproxy`
