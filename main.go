@@ -25,6 +25,7 @@ const (
 	HeapAlloc                = "HeapAlloc"
 	NtQueueApcThreadEx       = "NtQueueApcThreadEx"
 	RtlCreateUserThread      = "RtlCreateUserThread"
+	UuidFromStringA          = "UuidFromStringA"
 )
 
 func main() {
@@ -72,6 +73,7 @@ func main() {
 		fmt.Println("\t", HeapAlloc)
 		fmt.Println("\t", NtQueueApcThreadEx)
 		fmt.Println("\t", RtlCreateUserThread)
+		fmt.Println("\t", UuidFromStringA)
 		return
 	}
 	shellcode = parser.ParseShellCode(shellcode)
@@ -93,7 +95,8 @@ func main() {
 		module != EtwpCreateEtwThread &&
 		module != HeapAlloc &&
 		module != NtQueueApcThreadEx &&
-		module != RtlCreateUserThread {
+		module != RtlCreateUserThread &&
+		module != UuidFromStringA {
 		log.Error("error module")
 		log.Info("see help: go run main.go -h")
 		return
