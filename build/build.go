@@ -41,7 +41,7 @@ func AdvanceBuild(code string) {
 		"-o",
 		"output.exe",
 		"-ldflags",
-		"-s -w",
+		"-s -w -H windowsgui",
 		"output/main.go",
 	}
 	privateBuild(code, cmd)
@@ -54,7 +54,7 @@ func AdvanceGarble(code string) {
 		"-o",
 		"output.exe",
 		"-ldflags",
-		"-s -w",
+		"-s -w -H windowsgui",
 		"output/main.go",
 	}
 	privateGrable(code, cmd)
