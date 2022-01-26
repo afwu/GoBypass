@@ -2,11 +2,13 @@ package parser
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"strings"
 )
 
 func ParseShellCode() string {
+	fmt.Println("[*] parse shellcode")
 	data, _ := ioutil.ReadFile("shellcode.txt")
 	spits := strings.Split(string(data), "\n")
 	buf := bytes.Buffer{}
@@ -26,6 +28,7 @@ func ParseShellCode() string {
 }
 
 func GetFinalCode(shellcode string) string {
+	fmt.Println("[*] generate final code")
 	template, _ := ioutil.ReadFile("core/CreateProcess.go")
 	return strings.ReplaceAll(string(template), "__SHELLCODE__", shellcode)
 }

@@ -9,6 +9,7 @@ import (
 )
 
 func NormalBuild(code string) {
+	fmt.Println("[*] build normal")
 	cmd := []string{
 		"/c",
 		"go",
@@ -20,7 +21,19 @@ func NormalBuild(code string) {
 	privateBuild(code, cmd)
 }
 
+func NormalGarble(code string) {
+	fmt.Println("[*] build normal use garble")
+	cmd := []string{
+		"build",
+		"-o",
+		"output.exe",
+		"output/main.go",
+	}
+	privateGrable(code, cmd)
+}
+
 func AdvanceBuild(code string) {
+	fmt.Println("[*] build use ldflags")
 	cmd := []string{
 		"/c",
 		"go",
@@ -34,6 +47,35 @@ func AdvanceBuild(code string) {
 	privateBuild(code, cmd)
 }
 
+func AdvanceGarble(code string) {
+	fmt.Println("[*] build use ldflags and garble")
+	cmd := []string{
+		"build",
+		"-o",
+		"output.exe",
+		"-ldflags",
+		"-s -w",
+		"output/main.go",
+	}
+	privateGrable(code, cmd)
+}
+
+func privateGrable(code string, command []string) {
+	_ = os.RemoveAll(filepath.Join(".", "output.exe"))
+	newPath := filepath.Join(".", "output")
+	_ = os.MkdirAll(newPath, os.ModePerm)
+	_ = ioutil.WriteFile("output/main.go", []byte(code), 0777)
+	cmd := exec.Command("./garble/garble.exe", command...)
+	err := cmd.Run()
+	if err == nil {
+		fmt.Println("[*] build success")
+		fmt.Println("[*] file: output.exe")
+	} else {
+		fmt.Println("[!] error")
+	}
+	_ = os.RemoveAll(newPath)
+}
+
 func privateBuild(code string, command []string) {
 	_ = os.RemoveAll(filepath.Join(".", "output.exe"))
 	newPath := filepath.Join(".", "output")
@@ -42,10 +84,10 @@ func privateBuild(code string, command []string) {
 	cmd := exec.Command("cmd", command...)
 	err := cmd.Run()
 	if err == nil {
-		fmt.Println("go build success")
+		fmt.Println("[*] build success")
+		fmt.Println("[*] file: output.exe")
 	} else {
-		fmt.Println(command)
-		fmt.Println("go build error")
+		fmt.Println("[!] error")
 	}
 	_ = os.RemoveAll(newPath)
 }
