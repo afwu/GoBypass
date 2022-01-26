@@ -21,6 +21,7 @@ const (
 	CryptProtectMemory       = "CryptProtectMemory"
 	CryptUnprotectMemory     = "CryptUnprotectMemory"
 	EarlyBird                = "EarlyBird"
+	EtwpCreateEtwThread      = "EtwpCreateEtwThread"
 )
 
 func main() {
@@ -58,6 +59,7 @@ func main() {
 		fmt.Println("\t", CryptProtectMemory)
 		fmt.Println("\t", CryptUnprotectMemory)
 		fmt.Println("\t", EarlyBird)
+		fmt.Println("\t", EtwpCreateEtwThread)
 		return
 	}
 	shellcode = parser.ParseShellCode(shellcode)
@@ -75,7 +77,8 @@ func main() {
 		module != CreateThreadNative &&
 		module != CryptProtectMemory &&
 		module != CryptUnprotectMemory &&
-		module != EarlyBird {
+		module != EarlyBird &&
+		module != EtwpCreateEtwThread {
 		log.Error("error module")
 		log.Info("see help: go run main.go -h")
 		return
