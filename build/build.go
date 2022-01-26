@@ -1,7 +1,7 @@
 package build
 
 import (
-	"fmt"
+	"github.com/EmYiQing/GoBypass/log"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -9,7 +9,7 @@ import (
 )
 
 func NormalBuild(code string) {
-	fmt.Println("[*] build normal")
+	log.Info("build normal")
 	cmd := []string{
 		"/c",
 		"go",
@@ -22,7 +22,7 @@ func NormalBuild(code string) {
 }
 
 func NormalGarble(code string) {
-	fmt.Println("[*] build normal use garble")
+	log.Info("build normal use garble")
 	cmd := []string{
 		"build",
 		"-o",
@@ -33,7 +33,7 @@ func NormalGarble(code string) {
 }
 
 func AdvanceBuild(code string) {
-	fmt.Println("[*] build use ldflags")
+	log.Info("build use ldflags")
 	cmd := []string{
 		"/c",
 		"go",
@@ -48,7 +48,7 @@ func AdvanceBuild(code string) {
 }
 
 func AdvanceGarble(code string) {
-	fmt.Println("[*] build use ldflags and garble")
+	log.Info("build use ldflags and garble")
 	cmd := []string{
 		"build",
 		"-o",
@@ -68,10 +68,10 @@ func privateGrable(code string, command []string) {
 	cmd := exec.Command("./garble/garble.exe", command...)
 	err := cmd.Run()
 	if err == nil {
-		fmt.Println("[*] build success")
-		fmt.Println("[*] file: output.exe")
+		log.Info("build success")
+		log.Info("file: output.exe")
 	} else {
-		fmt.Println("[!] error")
+		log.Error("error")
 	}
 	_ = os.RemoveAll(newPath)
 }
@@ -84,10 +84,10 @@ func privateBuild(code string, command []string) {
 	cmd := exec.Command("cmd", command...)
 	err := cmd.Run()
 	if err == nil {
-		fmt.Println("[*] build success")
-		fmt.Println("[*] file: output.exe")
+		log.Info("build success")
+		log.Info("file: output.exe")
 	} else {
-		fmt.Println("[!] error")
+		log.Error("error")
 	}
 	_ = os.RemoveAll(newPath)
 }

