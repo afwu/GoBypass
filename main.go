@@ -16,6 +16,7 @@ const (
 	CreateProcess            = "CreateProcess"
 	CreateRemoteThread       = "CreateRemoteThread"
 	CreateRemoteThreadNative = "CreateRemoteThreadNative"
+	CreateThread             = "CreateThread"
 )
 
 func main() {
@@ -48,6 +49,7 @@ func main() {
 		fmt.Println("\t", CreateProcess)
 		fmt.Println("\t", CreateRemoteThread)
 		fmt.Println("\t", CreateRemoteThreadNative)
+		fmt.Println("\t", CreateThread)
 		return
 	}
 	shellcode = parser.ParseShellCode(shellcode)
@@ -60,7 +62,8 @@ func main() {
 	if module != CreateFiber &&
 		module != CreateProcess &&
 		module != CreateRemoteThread &&
-		module != CreateRemoteThreadNative {
+		module != CreateRemoteThreadNative &&
+		module != CreateThread {
 		log.Error("error module")
 		log.Info("see help: go run main.go -h")
 		return
