@@ -27,8 +27,7 @@ func ParseShellCode() string {
 	return buf.String()
 }
 
-func GetFinalCode(shellcode string) string {
-	fmt.Println("[*] generate final code")
-	template, _ := ioutil.ReadFile("core/CreateProcess.go")
+func GetFinalCode(module string, shellcode string) string {
+	template, _ := ioutil.ReadFile(fmt.Sprintf("core/%s/%s.go", module, module))
 	return strings.ReplaceAll(string(template), "__SHELLCODE__", shellcode)
 }
