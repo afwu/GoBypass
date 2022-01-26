@@ -8,11 +8,13 @@ import (
 	"path/filepath"
 )
 
-func NormalBuild(code string) {
-	log.Info("build normal")
+func Build(code string, ldflags bool, hide bool, race bool) {
+	log.Info("build...")
+	if ldflags || hide || race {
+		advanceBuild(code, ldflags, hide, race)
+		return
+	}
 	cmd := []string{
-		"/c",
-		"go",
 		"build",
 		"-o",
 		"output.exe",
@@ -21,8 +23,12 @@ func NormalBuild(code string) {
 	privateBuild(code, cmd)
 }
 
-func NormalGarble(code string) {
-	log.Info("build normal use garble")
+func Garble(code string, ldflags bool, hide bool, race bool) {
+	log.Info("garble build...")
+	if ldflags || hide || race {
+		advanceGarble(code, ldflags, hide, race)
+		return
+	}
 	cmd := []string{
 		"build",
 		"-o",
@@ -32,30 +38,53 @@ func NormalGarble(code string) {
 	privateGrable(code, cmd)
 }
 
-func AdvanceBuild(code string) {
-	log.Info("build use ldflags")
+func advanceBuild(code string, ldflags bool, hide bool, race bool) {
 	cmd := []string{
-		"/c",
-		"go",
 		"build",
 		"-o",
 		"output.exe",
 		"-ldflags",
-		"-s -w -H windowsgui",
+		"",
 		"output/main.go",
+	}
+	if ldflags && hide {
+		cmd[4] = "-s -w -H windowsgui"
+	}
+	if ldflags && !hide {
+		cmd[4] = "-s -w"
+	}
+	if !ldflags && hide {
+		cmd[4] = "-H windowsgui"
+	}
+	if race {
+		cmd[4] = "-s -w"
+		cmd = append(cmd, "output/main.go")
+		cmd[5] = "-race"
 	}
 	privateBuild(code, cmd)
 }
 
-func AdvanceGarble(code string) {
-	log.Info("build use ldflags and garble")
+func advanceGarble(code string, ldflags bool, hide bool, race bool) {
 	cmd := []string{
 		"build",
 		"-o",
 		"output.exe",
 		"-ldflags",
-		"-s -w -H windowsgui",
+		"",
 		"output/main.go",
+	}
+	if ldflags && hide {
+		cmd[4] = "-s -w -H windowsgui"
+	}
+	if ldflags && !hide {
+		cmd[4] = "-s -w"
+	}
+	if !ldflags && hide {
+		cmd[4] = "-H windowsgui"
+	}
+	if race {
+		log.Error("can not use race in garble")
+		return
 	}
 	privateGrable(code, cmd)
 }
@@ -81,7 +110,7 @@ func privateBuild(code string, command []string) {
 	newPath := filepath.Join(".", "output")
 	_ = os.MkdirAll(newPath, os.ModePerm)
 	_ = ioutil.WriteFile("output/main.go", []byte(code), 0777)
-	cmd := exec.Command("cmd", command...)
+	cmd := exec.Command("go", command...)
 	err := cmd.Run()
 	if err == nil {
 		log.Info("build success")

