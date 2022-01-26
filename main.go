@@ -23,6 +23,7 @@ const (
 	EarlyBird                = "EarlyBird"
 	EtwpCreateEtwThread      = "EtwpCreateEtwThread"
 	HeapAlloc                = "HeapAlloc"
+	NtQueueApcThreadEx       = "NtQueueApcThreadEx"
 )
 
 func main() {
@@ -62,6 +63,7 @@ func main() {
 		fmt.Println("\t", EarlyBird)
 		fmt.Println("\t", EtwpCreateEtwThread)
 		fmt.Println("\t", HeapAlloc)
+		fmt.Println("\t", NtQueueApcThreadEx)
 		return
 	}
 	shellcode = parser.ParseShellCode(shellcode)
@@ -81,7 +83,8 @@ func main() {
 		module != CryptUnprotectMemory &&
 		module != EarlyBird &&
 		module != EtwpCreateEtwThread &&
-		module != HeapAlloc {
+		module != HeapAlloc &&
+		module != NtQueueApcThreadEx {
 		log.Error("error module")
 		log.Info("see help: go run main.go -h")
 		return
