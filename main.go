@@ -20,6 +20,7 @@ const (
 	CreateThreadNative       = "CreateThreadNative"
 	CryptProtectMemory       = "CryptProtectMemory"
 	CryptUnprotectMemory     = "CryptUnprotectMemory"
+	EarlyBird                = "EarlyBird"
 )
 
 func main() {
@@ -56,6 +57,7 @@ func main() {
 		fmt.Println("\t", CreateThreadNative)
 		fmt.Println("\t", CryptProtectMemory)
 		fmt.Println("\t", CryptUnprotectMemory)
+		fmt.Println("\t", EarlyBird)
 		return
 	}
 	shellcode = parser.ParseShellCode(shellcode)
@@ -72,7 +74,8 @@ func main() {
 		module != CreateThread &&
 		module != CreateThreadNative &&
 		module != CryptProtectMemory &&
-		module != CryptUnprotectMemory {
+		module != CryptUnprotectMemory &&
+		module != EarlyBird {
 		log.Error("error module")
 		log.Info("see help: go run main.go -h")
 		return
