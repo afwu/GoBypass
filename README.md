@@ -27,7 +27,7 @@
 在生成免杀马之前请注意以下三件事
 
 1. 确保安装`Golang`且环境变量中包含`go`否则无法编译
-2. 请在当前目录执行先执行`go env -w GO111MODULE=on`然后`go mod download`命令下载依赖
+2. 请在当前目录先执行`go env -w GO111MODULE=on`然后`go mod download`命令下载依赖
 3. 如果下载依赖过慢配置镜像`go env -w GOPROXY=https://mirrors.aliyun.com/goproxy`
 
 一切就绪后就可以开始生成了
