@@ -53,22 +53,22 @@
 
 其中必须的模块参数如下
 
-| 模块名                      | 简介                                                              |
-|:-------------------------|:----------------------------------------------------------------|
-| CreateFiber              | 利用Windows CreateFiber函数执行ShellCode                              |
-| CreateProcess            | 利用Windows CreateProcess函数在挂起状态下创建进程                             |
-| CreateRemoteThread       | 利用Windows CreateRemoteThread函数在远程进程中执行ShellCode（注入explorer.exe） | 
-| CreateRemoteThreadNative | 和上一条区别在于使用更底层的方式（注入explorer.exe）                                |
-| CreateThread             | 利用Windows CreateThread函数执行ShellCode                             |
-| CreateThreadNative       | 和上一条区别在于使用更底层的方式                                                |
-| CryptProtectMemory       | 利用Windows dpapi.h CryptProtectMemory函数执行ShellCode               |
-| CryptUnprotectMemory     | 利用Windows dpapi.h CryptUnprotectMemory函数执行ShellCode             |
-| EarlyBird                | 注入的代码在进程主线程的入口点之前运行                                             |
-| EtwpCreateEtwThread      | 利用Windows EtwpCreateEtwThread函数在进程中执行ShellCode                  |
-| HeapAlloc                | 创建一个可供调用进程使用的堆并分配内存写入ShellCode                                  |
-| NtQueueApcThreadEx       | 在当前进程的当前线程中创建一个特殊用户APC来执行ShellCode                              |
-| RtlCreateUserThread      | 利用Windows RtlCreateUserThread函数执行ShellCode（注入explorer.exe）      |
-| UuidFromStringA          | 利用Windows UuidFromStringA函数将ShellCode加载到内存地址并执行                 |
+| 模块名                      | 简介                                              |
+|:-------------------------|:------------------------------------------------|
+| CreateFiber              | 利用Windows CreateFiber函数                         |
+| CreateProcess            | 利用Windows CreateProcess函数在挂起状态下创建进程             |
+| CreateRemoteThread       | 远程进程注入ShellCode（注入explorer.exe）                 | 
+| CreateRemoteThreadNative | 和上一条区别在于使用更底层的方式（注入explorer.exe）                |
+| CreateThread             | 利用Windows CreateThread函数                        |
+| CreateThreadNative       | 和上一条区别在于使用更底层的方式                                |
+| CryptProtectMemory       | 利用Windows dpapi.h CryptProtectMemory函数          |
+| CryptUnprotectMemory     | 利用Windows dpapi.h CryptUnprotectMemory函数        |
+| EarlyBird                | 注入的代码在进程主线程的入口点之前运行                             |
+| EtwpCreateEtwThread      | 利用Windows EtwpCreateEtwThread函数在进程中执行ShellCode  |
+| HeapAlloc                | 创建一个可供调用进程使用的堆并分配内存写入ShellCode                  |
+| NtQueueApcThreadEx       | 在当前进程的当前线程中创建一个特殊用户APC来执行ShellCode              |
+| RtlCreateUserThread      | 利用Windows RtlCreateUserThread函数（注入explorer.exe） |
+| UuidFromStringA          | 利用Windows UuidFromStringA函数                     |
 
 ### 参考
 
